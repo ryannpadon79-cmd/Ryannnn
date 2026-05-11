@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Mae!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap');
+
+        :root {
+            --primary-pink: #ff85a2;
+            --soft-pink: #ffeef2;
+            --dark-pink: #ff4d7d;
+            --accent-gold: #ffd700;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef2 0%, #ffcbd5 50%, #ffafbd 100%);
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            font-size: 1.2rem; 
+            overflow-x: hidden;
+        }
+
+        /* --- Floating Hearts Background --- */
+        .bg-hearts {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* --- Login Screen --- */
+        #login-screen {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            position: fixed;
+            z-index: 100;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .login-card {
+            background: white;
+            padding: 3.5rem 2rem;
+            border-radius: 40px;
+            box-shadow: 0 25px 60px rgba(255, 77, 125, 0.3);
+            text-align: center;
+            width: 85%;
+            max-width: 420px;
+            border: 3px solid var(--soft-pink);
+        }
+
+        .login-card h2 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 2.5rem;
+            color: var(--dark-pink);
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        input[type="date"] {
+            padding: 18px;
+            border: 2px solid var(--soft-pink);
+            background: #fffafa;
+            border-radius: 20px;
+            margin: 25px 0;
+            width: 90%;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        input[type="date"]:focus {
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 10px rgba(255, 133, 162, 0.3);
+        }
+
+        .unlock-btn {
+            background: linear-gradient(45deg, #ff4d7d, #ff85a2);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 25px rgba(255, 77, 125, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .unlock-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 77, 125, 0.5);
+        }
+
+        /* --- Main Content --- */
+        #main-content {
+            width: 100%;
+            max-width: 650px;
+            padding: 40px 20px;
+            display: none; 
+            text-align: center;
+            box-sizing: border-box;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.8rem;
+            margin-bottom: 5px;
+            color: var(--dark-pink);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            margin: 40px 0;
+            padding: 35px 25px;
+            border-radius: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section h2 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 2rem;
+            color: var(--dark-pink);
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* --- Photo Book Gallery --- */
+        .book-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            min-height: 350px;
+        }
+
+        .gallery-page { 
+            display: none; 
+            width: 100%; 
+            height: auto;
+            max-height: 550px; 
+            object-fit: cover; 
+            border-radius: 30px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: slideIn 0.5s ease-out;
+            border: 5px solid white;
+            image-rendering: -webkit-optimize-contrast;
+        } 
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .active { display: block; margin: 0 auto; }
+
+        .book-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .nav-btn {
+            background: white;
+            color: var(--dark-pink);
+            border: 2px solid var(--primary-pink);
+            padding: 12px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-pink);
+            color: white;
+        }
+
+        /* --- Timer Box --- */
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .timer-box {
+            background: linear-gradient(145deg, #ffffff, #fff0f3);
+            color: var(--dark-pink);
+            padding: 15px 5px;
+            border-radius: 25px;
+            flex: 1;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(255, 77, 125, 0.1);
+            border: 1px solid rgba(255, 133, 162, 0.2);
+        }
+        .timer-box div {
+            font-size: 2rem;
+            font-family: 'Times New Roman', Times, serif;
+            margin-bottom: 2px;
+        }
+
+        /* --- Letter Styling --- */
+        #letter {
+            display: none;
+            text-align: left;
+            border-radius: 30px;
+            padding: 35px;
+            background: #ffffff;
+            margin-top: 25px;
+            line-height: 2;
+            font-size: 1.3rem; 
+            font-family: 'Times New Roman', Times, serif; 
+            color: #222;
+            box-shadow: inset 0 0 30px rgba(255, 133, 162, 0.05);
+            border: 1px solid var(--soft-pink);
+            animation: fadeIn 1s ease;
+        }
+
+        .letter-btn {
+            background: linear-gradient(45deg, var(--primary-pink), var(--dark-pink));
+            color: white;
+            padding: 18px 40px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(255, 77, 125, 0.3);
+            transition: all 0.3s;
+        }
+
+        .letter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 77, 125, 0.4);
+        }
+
+        /* --- Floating Shapes --- */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0.7;
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="login-card">
+            <div style="font-size: 5rem; margin-bottom: 15px; animation: pulse 2s infinite;">💝</div>
+            <h2>For Mae</h2>
+            <p style="font-size: 1.1rem; color: #666;">A special surprise is waiting inside...</p>
+            <input type="date" id="birthdate-input">
+            <br>
+            <button class="unlock-btn" onclick="checkBirthday()">Unlock Surprise</button>
+            <p id="error-msg" style="color: #ff4d7d; display: none; margin-top: 20px; font-weight: 600;">i think mali guro pag guess ko sa year mo.❤️</p>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <header>
+            <div style="font-size: 3rem;">✨👑✨</div>
+            <h1>Happy Birthday, Mae! 💖</h1>
+            <p style="font-size: 1.4rem; color: var(--dark-pink); font-family: 'Times New Roman', serif; font-style: italic;">To the girl who makes every day brighter.</p>
+        </header>
+
+        <section class="section">
+            <h2>Make a Wish! 🎂</h2>
+            <div id="cake" style="font-size: 7rem; cursor: pointer; transition: transform 0.3s;" onclick="blowCandle()">🎂</div>
+            <p id="wish-text" style="font-weight: 600; margin-top: 15px; font-size: 1.3rem; color: #444;">Tap the cake to blow the candle!</p>
+        </section>
+
+        <section class="section">
+            <h2>Timer rani oii since 2022 we've been chatting together (assuming)✨</h2>
+            <div class="timer-grid">
+                <div class="timer-box"><div id="days">0</div>Days</div>
+                <div class="timer-box"><div id="hours">0</div>Hrs</div>
+                <div class="timer-box"><div id="minutes">0</div>Min</div>
+                <div class="timer-box"><div id="seconds">0</div>Sec</div>
+            </div>
+            <p style="margin-top: 20px; font-size: 1rem; color: #888; font-family: 'Times New Roman', serif;">Since June 15, 2022</p>
+        </section>
+        
+        <section class="section">
+            <h2>Favorite Views 📸 ✨</h2>
+            <div class="book-container">
+                <img src="https://i.postimg.cc/SNtwHw2q/IMG-20260509-214412-122.jpg" class="gallery-page active" alt="Mae 1"> 
+                <img src="https://i.postimg.cc/PJ0QQzxy/FB-IMG-1778290979928.jpg" class="gallery-page" alt="Mae 2">
+                <img src="https://i.postimg.cc/6QCZKs9H/FB-IMG-1778290940058.jpg" class="gallery-page" alt="Mae 3">
+                <img src="https://i.postimg.cc/sXwvfsbv/FB-IMG-1778291011394.jpg" class="gallery-page" alt="Mae 4">
+                
+                <div class="book-nav">
+                    <button class="nav-btn" onclick="changePage(-1)">← Prev</button>
+                    <span id="page-num" style="font-family: 'Times New Roman', serif; font-weight: bold; color: var(--dark-pink);">1 / 4</span>
+                    <button class="nav-btn" onclick="changePage(1)">Next →</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" style="margin-bottom: 60px;">
+            <button class="letter-btn" onclick="toggleLetter()">Read My Message ❤️</button>
+            <div id="letter">
+                <h3 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--dark-pink); margin-top: 0;">My Dearest Mae,</h3>
+                <p>This is all I can afford—to send you a webpage as your birthday present. I just want to thank you for being kind to me and for taking the time to chat, even when you’re busy doing homework or school activities. I really appreciate it.</p>
+                <p>Keep chasing your dreams—gambare! Mao ragyud ma ingon ko...</p>
+                <p style="text-align: right; margin-top: 40px; font-size: 1.5rem; color: var(--dark-pink);"><b>Always yours, Ryann</b></p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const correctDate = "2007-05-29";
+        const anniversaryDate = new Date("2023-06-15"); 
+
+        function checkBirthday() {
+            const input = document.getElementById('birthdate-input').value;
+            if (input === correctDate) {
+                document.getElementById('login-screen').style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById('login-screen').style.display = "none";
+                    document.getElementById('main-content').style.display = "block";
+                    startTimer();
+                    createConfetti();
+                }, 1000);
+            } else {
+                document.getElementById('error-msg').style.display = "block";
+            }
+        }
+
+        function blowCandle() {
+            document.getElementById('cake').innerHTML = "🍰";
+            document.getElementById('cake').style.transform = "scale(1.2)";
+            document.getElementById('wish-text').innerHTML = "Wish Made! ✨ <br> <span style='font-size: 1.1rem; font-weight: normal; color: #ff4d7d;'>I hope all your dreams come true, love.</span>";
+            createConfetti();
+        }
+
+        let currentPage = 0;
+        const pages = document.querySelectorAll('.gallery-page');
+        const pageLabel = document.getElementById('page-num');
+
+        function changePage(step) {
+            pages[currentPage].classList.remove('active');
+            currentPage = (currentPage + step + pages.length) % pages.length;
+            pages[currentPage].classList.add('active');
+            pageLabel.innerText = `${currentPage + 1} / ${pages.length}`;
+        }
+
+        function toggleLetter() {
+            const l = document.getElementById('letter');
+            l.style.display = (l.style.display === "block") ? "none" : "block";
+            if(l.style.display === "block") {
+                l.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function startTimer() {
+            setInterval(() => {
+                const diff = new Date() - anniversaryDate;
+                document.getElementById('days').innerText = Math.floor(diff / 86400000);
+                document.getElementById('hours').innerText = Math.floor((diff / 3600000) % 24);
+                document.getElementById('minutes').innerText = Math.floor((diff / 60000) % 60);
+                document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
+            }, 1000);
+        }
+
+        function createConfetti() {
+            const colors = ['#ff85a2', '#ff4d7d', '#ffd700', '#ffffff', '#ffcbd5'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.opacity = Math.random();
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+    </script>
+</body>
+</html>
